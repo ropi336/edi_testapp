@@ -101,7 +101,7 @@ internal class Program
 
         Console.WriteLine("Found the Untitled.txt document tab.");
 
-        untitledTab.AsButton().Invoke();
+        untitledTab.AsTabItem().Select();
 
         //PrintTree(window);
 
