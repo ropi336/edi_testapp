@@ -64,20 +64,14 @@ internal class Program
         var buttons = window.FindAllDescendants(
             cf => cf.ByControlType(ControlType.Button));
 
-        Console.WriteLine($"Found {buttons.Length} buttons:");
-
-        foreach (var button in buttons)
-        {
-            Console.WriteLine(
-                $"Name='{button.Name}', " +
-                $"AutomationId='{button.AutomationId}'");
-        }
-
         var newButton = window.FindFirstDescendant(
         cf => cf.ByAutomationId("New"));
 
+        Console.WriteLine($"Found 'New' button. Invoking button.");
+
         //Use INVOKE, not click. Invocation always more robust than click
         newButton.AsButton().Invoke();
+
 
         //Sleep arbitrary amount to make sure action is completed
         Thread.Sleep(500);
@@ -107,11 +101,12 @@ internal class Program
 
         Console.WriteLine("Found the Untitled.txt document tab.");
 
+        untitledTab.AsButton().Invoke();
+
         //PrintTree(window);
 
-        Console.WriteLine();
-        Console.WriteLine("Press ENTER to close Edi.");
-        Console.ReadLine();
+        Thread.Sleep(3000);
+
 
         application.Close();
     }
