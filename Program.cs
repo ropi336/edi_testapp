@@ -1,4 +1,8 @@
 ﻿using System.Diagnostics;
+using FlaUI.Core;
+using FlaUI.Core.AutomationElements;
+using FlaUI.Core.Definitions;
+using FlaUI.UIA3;
 
 namespace Edi.TestApp;
 
@@ -10,34 +14,58 @@ internal class Program
 
         Console.WriteLine("Starting Edi");
 
-        var process = Process.Start(ediPath);
+        using var application = Application.Launch(ediPath);
 
-        if (process == null)
+        using var automation = new UIA3Automation();
+
+        var window = application.GetMainWindow(automation);
+
+        if (window == null)
         {
-            Console.WriteLine("FAIL: Could not start Edi.");
+            Console.WriteLine("FAIL: Could find Edi window.");
             return;
         }
 
-        Console.WriteLine($"Edi started. PID: {process.Id}\nWaiting for program to be ready.");
+        Console.WriteLine($"Found window: {window.Title}");
 
-        process.WaitForInputIdle();
+        // Look at every button FlaUI can see
+        var buttons = window.FindAllDescendants(
+            cf => cf.ByControlType(ControlType.Button));
 
-        Console.WriteLine("Edi is ready.");
-        Console.WriteLine($"Window handle: {process.MainWindowHandle}");
+        Console.WriteLine($"Found {buttons.Length} buttons:");
+
+        foreach (var button in buttons)
+        {
+            Console.WriteLine(
+                $"Name='{button.Name}', " +
+                $"AutomationId='{button.AutomationId}'");
+        }
+
+        var newButton = window.FindFirstDescendant(
+        cf => cf.ByAutomationId("New"));
+
+        //Use INVOKE, not click. Invocation always more robust than click
+        newButton.AsButton().Invoke();
+
+        //Sleep arbitrary amt to make sure action is completed
+        Thread.Sleep(1000);
+
+        var untitledElements = window.FindAllDescendants(cf => cf.ByName("Untitled.txt"));
+
+        Console.WriteLine($"Found {untitledElements.Length} elements named 'Untitled':");
+
+        foreach (var element in untitledElements)
+        {
+            Console.WriteLine(
+                $"Name='{element.Name}', " +
+                $"AutomationId='{element.AutomationId}', " +
+                $"ControlType='{element.ControlType}'");
+        }
 
         Console.WriteLine();
         Console.WriteLine("Press ENTER to close Edi.");
         Console.ReadLine();
 
-        process.CloseMainWindow();
-
-        if (!process.WaitForExit(5000))
-        {
-            Console.WriteLine("Edi did not close within 5 seconds.");
-        }
-        else
-        {
-            Console.WriteLine("Edi closed successfully.");
-        }
+        application.Close();
     }
 }
