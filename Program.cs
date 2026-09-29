@@ -8,6 +8,17 @@ namespace Edi.TestApp;
 
 internal class Program
 {
+    static string SafeGet(Func<string> getter)
+    {
+        try
+        {
+            return getter() ?? "<null>";
+        }
+        catch
+        {
+            return "<not supported>";
+        }
+    }
     static void Main()
     {
         string ediPath = @"D:\CPROJECT\Edi-1.2\Debug\Edi.exe";
@@ -47,23 +58,23 @@ internal class Program
         //Use INVOKE, not click. Invocation always more robust than click
         newButton.AsButton().Invoke();
 
-        //Sleep arbitrary amt to make sure action is completed
+        //Sleep arbitrary amount to make sure action is completed
         Thread.Sleep(500);
-
-        var untitledElements = window.FindAllDescendants(cf => cf.ByName("Untitled.txt"));
-
-        Console.WriteLine($"Found {untitledElements.Length} elements named 'Untitled':");
 
         static void PrintTree(AutomationElement element, int depth = 0)
         {
             string indent = new string(' ', depth * 2);
 
+            string name = SafeGet(() => element.Name);
+            string automationId = SafeGet(() => element.AutomationId);
+            string className = SafeGet(() => element.ClassName);
+
             Console.WriteLine(
                 $"{indent}" +
                 $"Type='{element.ControlType}' | " +
-                $"Name='{element.Name}' | " +
-                $"AutomationId='{element.AutomationId}' | " +
-                $"ClassName='{element.ClassName}'");
+                $"Name='{name}' | " +
+                $"AutomationId='{automationId}' | " +
+                $"ClassName='{className}'");
 
             foreach (var child in element.FindAllChildren())
             {
