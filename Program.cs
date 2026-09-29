@@ -19,6 +19,27 @@ internal class Program
             return "<not supported>";
         }
     }
+
+    static void PrintTree(AutomationElement element, int depth = 0)
+    {
+        string indent = new string(' ', depth * 2);
+
+        string name = SafeGet(() => element.Name);
+        string automationId = SafeGet(() => element.AutomationId);
+        string className = SafeGet(() => element.ClassName);
+
+        Console.WriteLine(
+            $"{indent}" +
+            $"Type='{element.ControlType}' | " +
+            $"Name='{name}' | " +
+            $"AutomationId='{automationId}' | " +
+            $"ClassName='{className}'");
+
+        foreach (var child in element.FindAllChildren())
+        {
+            PrintTree(child, depth + 1);
+        }
+    }
     static void Main()
     {
         string ediPath = @"D:\CPROJECT\Edi-1.2\Debug\Edi.exe";
@@ -60,27 +81,6 @@ internal class Program
 
         //Sleep arbitrary amount to make sure action is completed
         Thread.Sleep(500);
-
-        static void PrintTree(AutomationElement element, int depth = 0)
-        {
-            string indent = new string(' ', depth * 2);
-
-            string name = SafeGet(() => element.Name);
-            string automationId = SafeGet(() => element.AutomationId);
-            string className = SafeGet(() => element.ClassName);
-
-            Console.WriteLine(
-                $"{indent}" +
-                $"Type='{element.ControlType}' | " +
-                $"Name='{name}' | " +
-                $"AutomationId='{automationId}' | " +
-                $"ClassName='{className}'");
-
-            foreach (var child in element.FindAllChildren())
-            {
-                PrintTree(child, depth + 1);
-            }
-        }
 
         PrintTree(window);
 
