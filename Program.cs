@@ -72,8 +72,8 @@ internal class Program
         //Use INVOKE, not click. Invocation always more robust than click
         newButton.AsButton().Invoke();
 
-
         //Sleep arbitrary amount to make sure action is completed
+        //TODO: Wait for UI element rather than arbitrary time
         Thread.Sleep(500);
 
         var tabs = window.FindAllDescendants(cf => cf.ByControlType(ControlType.TabItem));
@@ -101,12 +101,14 @@ internal class Program
 
         Console.WriteLine("Found the Untitled.txt document tab.");
 
+        //Use SELECT, not click. Select always more robust than a click.
         untitledTab.AsTabItem().Select();
 
         //PrintTree(window);
 
-        Thread.Sleep(3000);
-
+        //Auto close the application after 3 seconds.
+        Console.WriteLine("Press ENTER to close Edi.");
+        Console.ReadLine();
 
         application.Close();
     }
