@@ -48,19 +48,30 @@ internal class Program
         newButton.AsButton().Invoke();
 
         //Sleep arbitrary amt to make sure action is completed
-        Thread.Sleep(1000);
+        Thread.Sleep(500);
 
         var untitledElements = window.FindAllDescendants(cf => cf.ByName("Untitled.txt"));
 
         Console.WriteLine($"Found {untitledElements.Length} elements named 'Untitled':");
 
-        foreach (var element in untitledElements)
+        static void PrintTree(AutomationElement element, int depth = 0)
         {
+            string indent = new string(' ', depth * 2);
+
             Console.WriteLine(
-                $"Name='{element.Name}', " +
-                $"AutomationId='{element.AutomationId}', " +
-                $"ControlType='{element.ControlType}'");
+                $"{indent}" +
+                $"Type='{element.ControlType}' | " +
+                $"Name='{element.Name}' | " +
+                $"AutomationId='{element.AutomationId}' | " +
+                $"ClassName='{element.ClassName}'");
+
+            foreach (var child in element.FindAllChildren())
+            {
+                PrintTree(child, depth + 1);
+            }
         }
+
+        PrintTree(window);
 
         Console.WriteLine();
         Console.WriteLine("Press ENTER to close Edi.");
