@@ -82,7 +82,32 @@ internal class Program
         //Sleep arbitrary amount to make sure action is completed
         Thread.Sleep(500);
 
-        PrintTree(window);
+        var tabs = window.FindAllDescendants(cf => cf.ByControlType(ControlType.TabItem));
+
+        AutomationElement? untitledTab = null;
+
+        foreach (var tab in tabs)
+        {
+            var title = tab.FindFirstDescendant(
+                cf => cf.ByName("Untitled.txt")
+                        .And(cf.ByControlType(ControlType.Text)));
+
+            if (title != null)
+            {
+                untitledTab = tab;
+                break;
+            }
+        }
+
+        if (untitledTab == null)
+        {
+            Console.WriteLine("FAIL: Untitled.txt tab was not found.");
+            return;
+        }
+
+        Console.WriteLine("Found the Untitled.txt document tab.");
+
+        //PrintTree(window);
 
         Console.WriteLine();
         Console.WriteLine("Press ENTER to close Edi.");
