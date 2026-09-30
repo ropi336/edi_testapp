@@ -50,6 +50,8 @@ internal class FileOpenRecent
 
         Thread.Sleep(1000);
 
+        edi.CloseAllDocuments();
+
         edi.Close();
 
         Console.WriteLine("App successfully shut down.");

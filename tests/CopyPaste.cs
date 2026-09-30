@@ -17,15 +17,19 @@ internal class CopyPaste
 
         string filePath = "D:\\CPROJECT\\edi_testapp\\edi_testapp\\testapp_savedir\\CopyPaste.txt";
 
+        string filePathBackup = "D:\\CPROJECT\\edi_testapp\\edi_testapp\\testapp_backupfiles\\CopyPaste.txt";
+
+        File.Copy(filePathBackup, filePath, true);
+
         using var edi = new TestManager(ediPath);
 
         string cExpectedFileContents = "CopyThisString\r\nCopyThisString";
 
         const string cPopUpOpenButtonId = "1";
 
-        edi.LogResult("Launching EDI", true, edi.Launch());
-
         Console.WriteLine($"Preparing test case prerequisites.");
+
+        edi.LogResult("Launching EDI", true, edi.Launch());
 
         edi.CloseAllDocuments();
 
@@ -66,6 +70,8 @@ internal class CopyPaste
         edi.LogResult("Compare file contents after save", cExpectedFileContents, actualContents);
 
         Thread.Sleep(1000);
+
+        edi.CloseAllDocuments();
 
         edi.Close();
 

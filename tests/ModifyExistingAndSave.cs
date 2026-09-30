@@ -26,7 +26,8 @@ internal class ModifyExistingAndSave
         const string cPopUpOpenButtonId = "1";
         const string cPopUpSaveButton = "1";
 
-        edi.LogResult("Launching EDI", true, edi.Launch());
+        edi.Launch();
+        edi.CloseAllDocuments();
 
         Console.WriteLine($"Preparing test case prerequisites.");
 
@@ -34,7 +35,6 @@ internal class ModifyExistingAndSave
 
         Thread.Sleep(1000);
 
-        edi.CloseAllDocuments();
         edi.OpenFile(filePath, cPopUpOpenButtonId);
 
         Thread.Sleep(400);
@@ -65,8 +65,6 @@ internal class ModifyExistingAndSave
         edi.LogResult("Compare file contents after Save action.", cExpectedFileContents, actualContents);
 
         edi.LogResult("Compare document contents after Save action.", cExpectedFileContents, edi.GetDocumentContents());
-
-        Console.ReadLine();
 
         Thread.Sleep(1000);
 

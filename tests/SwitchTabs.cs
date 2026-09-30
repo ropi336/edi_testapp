@@ -23,20 +23,31 @@ internal class SwitchTabs
 
         using var edi = new TestManager(ediPath);
 
-        edi.LogResult("Launching EDI", true, edi.Launch());
+        edi.Launch();
 
         Console.WriteLine($"Preparing test case prerequisites.");
 
+        Console.WriteLine($"Closing all documents.");
+
         edi.CloseAllDocuments();
+
+        Console.WriteLine($"Opening files CopyPaste.txt, Cut.txt, and OpenRecent.txt.");
+
         edi.OpenFile(filePathCopyPaste, cPopUpOpenButtonId);
         edi.OpenFile(filePathCut, cPopUpOpenButtonId);
         edi.OpenFile(filePathOpenRecent, cPopUpOpenButtonId);
+
+        Console.WriteLine($"Closing EDI.");
+
         Thread.Sleep(1000);
         edi.Close();
         Thread.Sleep(1000);
-        edi.Launch();
 
         Console.WriteLine($"Commencing test.");
+
+        edi.LogResult("Launching EDI", true, edi.Launch());
+
+        Thread.Sleep(1000);
 
         edi.LogResult("Search for any tab named CopyPaste.txt", true, edi.SelectTabByName("CopyPaste.txt"));
 
@@ -50,7 +61,7 @@ internal class SwitchTabs
 
         Thread.Sleep(1000);
 
-        Thread.Sleep(1000);
+        edi.CloseAllDocuments();
 
         edi.Close();
 
