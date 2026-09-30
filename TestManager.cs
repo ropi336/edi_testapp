@@ -101,16 +101,52 @@ internal class TestManager : IDisposable
 
     public void PrintEditableTextBoxContents(string automationId)
     {
-        var editor = MainWindow.FindFirstDescendant(cf => cf.ByAutomationId(automationId));
+        var editors = MainWindow.FindFirstDescendant(
+            cf => cf.ByAutomationId(automationId).And(cf.ByControlType(ControlType.Edit)));
 
-        if (editor == null)
+        if (editors == null)
         {
             return;
         }
 
-        foreach (var pattern in editor.GetSupportedPatterns())
+        Thread.Sleep(300);
+
+        var textPattern = editors.Patterns.Text.Pattern;
+
+        string text = textPattern.DocumentRange.GetText(-1);
+
+        Console.WriteLine($"TextPattern: '{text}'");
+    }
+
+    public void GetEdiView()
+    {
+        var ediView = MainWindow.FindFirstDescendant(
+            cf => cf.ByClassName("EdiView"));
+
+        if (ediView == null)
         {
-            Console.WriteLine(pattern);
+            Console.WriteLine("EdiView not found.");
+            return;
+        }
+
+        PrintPatterns(ediView);
+    }
+    public void PrintPatterns(AutomationElement element)
+    {
+        Console.WriteLine(
+            $"Type='{element.ControlType}' | " +
+            $"Name='{SafeGet(() => element.Name)}' | " +
+            $"ID='{SafeGet(() => element.AutomationId)}' | " +
+            $"Class='{SafeGet(() => element.ClassName)}'");
+
+        foreach (var pattern in element.GetSupportedPatterns())
+        {
+            Console.WriteLine($"    Pattern: {pattern}");
+        }
+
+        foreach (var child in element.FindAllChildren())
+        {
+            PrintPatterns(child);
         }
     }
 

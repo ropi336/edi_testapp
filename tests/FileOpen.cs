@@ -16,7 +16,7 @@ internal class FileOpen
 
         string filePath = "D:\\CPROJECT\\edi_testapp\\edi_testapp\\testapp_savedir\\TextContent.txt";
 
-        const string cSaveAsPopUpOpenButtonId = "1";
+        const string cOpenPopUpOpenButtonId = "1";
 
         const string cExpectedFileContents = "SampleText";
 
@@ -58,7 +58,7 @@ internal class FileOpen
 
         AutomationElement openWindow = edi.FindWindowByName("Open");
 
-        if (!edi.InvokeButtonInWindow(openWindow, cSaveAsPopUpOpenButtonId))
+        if (!edi.InvokeButtonInWindow(openWindow, cOpenPopUpOpenButtonId))
         {
             Console.WriteLine("[FAIL] Could not Invoke 'Open' Button.");
             return;
@@ -67,7 +67,9 @@ internal class FileOpen
 
         Thread.Sleep(200);
 
-        edi.PrintEditableTextBoxContents("PART_EditableTextBox");
+        edi.GetEdiView();
+
+        Console.ReadLine();
 
         Thread.Sleep(1000);
 
