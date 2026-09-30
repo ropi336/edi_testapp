@@ -47,6 +47,15 @@ internal class FileNewFileSaveAs
 
         Console.WriteLine("[PASS] Save As invoked.");
 
+
+        Thread.Sleep(300);
+
+        Console.WriteLine("Printing all windows");
+
+        edi.PrintAllWindows();
+
+        Console.ReadLine();
+
         Thread.Sleep(5000);
 
         edi.Close();

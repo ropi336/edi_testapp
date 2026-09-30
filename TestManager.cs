@@ -17,7 +17,23 @@ internal class TestManager : IDisposable
     {
         _ediPath = ediPath;
     }
+    public void PrintAllWindows()
+    {
+        if (_app == null || _automation == null)
+            return;
 
+        var windows = _app.GetAllTopLevelWindows(_automation);
+
+        Console.WriteLine("Writing all detected top level windows to console.");
+
+        foreach (var window in windows)
+        {
+            Console.WriteLine(
+                $"Window: Name='{window.Name}', " +
+                $"AutomationId='{window.AutomationId}', " +
+                $"ClassName='{window.ClassName}'");
+        }
+    }
     public bool Launch()
     {
         _app = Application.Launch(_ediPath);
