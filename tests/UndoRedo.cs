@@ -27,19 +27,8 @@ internal class UndoRedo
         Console.WriteLine($"Preparing test case prerequisites.");
 
         edi.CloseAllDocuments();
-        edi.ExpandMenuItemByName("File");
-        edi.ExpandMenuItemByName("Open");
-        edi.InvokeMenuItemByName("Text files");
 
-        Thread.Sleep(200);
-
-        edi.CompletePopUpProcedure("Open", filePath);
-
-        Thread.Sleep(200);
-
-        AutomationElement openWindow = edi.FindWindowByName("Open");
-
-        edi.InvokeButtonInWindow(openWindow, cPopUpOpenButtonId);
+        edi.OpenFile(filePath, cPopUpOpenButtonId);
 
         Thread.Sleep(400);
 

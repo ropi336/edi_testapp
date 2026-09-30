@@ -404,6 +404,19 @@ internal class TestManager : IDisposable
         return false;
     }
 
+    public void OpenFile(string path, string buttonId)
+    {
+        InvokeButton("PART_ActionButton");
+
+        Thread.Sleep(300);
+
+        CompletePopUpProcedure("Open", path);
+
+        AutomationElement openWindow = FindWindowByName("Open");
+
+        InvokeButtonInWindow(openWindow, buttonId);
+    }
+
     public bool FileExists(string filePath)
     {
         return File.Exists(filePath);

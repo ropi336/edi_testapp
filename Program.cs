@@ -63,6 +63,10 @@ internal class Program
                 case "6":
                     UndoRedo.Run();
                     break;
+                    
+                case "7":
+                    AutoOpenRecents.Run();
+                    break;
 
                 case "0":
                     running = false;
