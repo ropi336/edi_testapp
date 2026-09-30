@@ -9,15 +9,13 @@ using Microsoft.VisualBasic;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace TestApp.Tests;
-internal class AutoOpenRecents
+internal class CloseDocument
 {
     public static void Run()
     {
         string ediPath = @"D:\CPROJECT\Edi-1.2\Debug\Edi.exe";
 
-        string filePathCopyPaste = "D:\\CPROJECT\\edi_testapp\\edi_testapp\\testapp_savedir\\CopyPaste.txt";
-        string filePathCut = "D:\\CPROJECT\\edi_testapp\\edi_testapp\\testapp_savedir\\Cut.txt";
-        string filePathOpenRecent = "D:\\CPROJECT\\edi_testapp\\edi_testapp\\testapp_savedir\\OpenRecent.txt";
+        string filePath = "D:\\CPROJECT\\edi_testapp\\edi_testapp\\testapp_savedir\\CopyPaste.txt";
 
         const string cPopUpOpenButtonId = "1";
 
@@ -28,19 +26,20 @@ internal class AutoOpenRecents
         Console.WriteLine($"Preparing test case prerequisites.");
 
         edi.CloseAllDocuments();
-        edi.OpenFile(filePathCopyPaste, cPopUpOpenButtonId);
-        edi.OpenFile(filePathCut, cPopUpOpenButtonId);
-        edi.OpenFile(filePathOpenRecent, cPopUpOpenButtonId);
-        Thread.Sleep(1000);
-        edi.Close();
-        Thread.Sleep(1000);
-        edi.Launch();
 
         Console.WriteLine($"Commencing test.");
 
+        edi.LogResult("Open file CopyPaste.txt", true, edi.OpenFile(filePath, cPopUpOpenButtonId));
+        Thread.Sleep(1000);
+
         edi.LogResult("Search for any tab named CopyPaste.txt", true, edi.TabExists("CopyPaste.txt"));
-        edi.LogResult("Search for any tab named Cut.txt", true, edi.TabExists("Cut.txt"));
-        edi.LogResult("Search for any tab named OpenRecent.txt", true, edi.TabExists("OpenRecent.txt"));
+        Thread.Sleep(200);
+
+        edi.LogResult("Close any tabs named CopyPaste.txt", true, edi.CloseTabByName("CopyPaste.txt"));
+
+        Thread.Sleep(200);
+
+        edi.LogResult("Verify tabs named CopyPaste.txt have been closed", false, edi.TabExists("CopyPaste.txt"));
 
         Thread.Sleep(1000);
 

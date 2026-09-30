@@ -68,6 +68,10 @@ internal class Program
                     AutoOpenRecents.Run();
                     break;
 
+                case "8":
+                    CloseDocument.Run();
+                    break;
+
                 case "0":
                     running = false;
                     break;

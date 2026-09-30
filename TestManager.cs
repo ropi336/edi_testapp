@@ -210,11 +210,11 @@ internal class TestManager : IDisposable
             cf => cf.ByName(name));
     }
 
-    public bool FindTabByName(string name)
+    public AutomationElement FindTabByName(string name)
     {
         if (MainWindow == null)
         {
-            return false;
+            return null;
         }
 
         var tabs = MainWindow.FindAllDescendants(
@@ -226,10 +226,44 @@ internal class TestManager : IDisposable
 
             if (title != null)
             {
-                return true;
+                return tab;
             }
         }
-        return false;
+        return null;
+    }
+
+    public bool TabExists(string name)
+    {
+        var tab = FindTabByName(name);
+        if (tab != null)
+        {
+            return true;
+        }
+
+        else return false;
+    }
+
+    public bool CloseTabByName(string name)
+    {
+        var tab = FindTabByName(name);
+
+        if (tab == null)
+        {
+            return false;
+        }
+
+        var closeButton = tab.FindFirstDescendant(
+            cf => cf.ByControlType(ControlType.Button)
+                    .And(cf.ByAutomationId("DocumentCloseButton")));
+
+        if (closeButton == null)
+        {
+            return false;
+        }
+
+        closeButton.AsButton().Invoke();
+
+        return true;
     }
 
 
@@ -404,17 +438,24 @@ internal class TestManager : IDisposable
         return false;
     }
 
-    public void OpenFile(string path, string buttonId)
+    public bool OpenFile(string path, string buttonId)
     {
         InvokeButton("PART_ActionButton");
 
         Thread.Sleep(300);
 
-        CompletePopUpProcedure("Open", path);
+        if (!CompletePopUpProcedure("Open", path))
+        {
+            return false;
+        }
 
         AutomationElement openWindow = FindWindowByName("Open");
 
-        InvokeButtonInWindow(openWindow, buttonId);
+        if (!InvokeButtonInWindow(openWindow, buttonId))
+        {
+            return false;
+        }
+        return true;
     }
 
     public bool FileExists(string filePath)

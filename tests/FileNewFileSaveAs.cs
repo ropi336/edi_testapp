@@ -35,7 +35,7 @@ internal class FileNewFileSaveAs
         Thread.Sleep(100);
 
         //Check available tabs if new file exists
-        edi.LogResult("Search for any tab named Untitled.txt", true, edi.FindTabByName("Untitled.txt"));
+        edi.LogResult("Search for any tab named Untitled.txt", true, edi.TabExists("Untitled.txt"));
 
         edi.LogResult("Expand 'File' menu item", true, edi.ExpandMenuItemByName("File"));
 
