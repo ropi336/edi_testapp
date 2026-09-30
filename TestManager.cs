@@ -17,23 +17,52 @@ internal class TestManager : IDisposable
     {
         _ediPath = ediPath;
     }
-    public void PrintAllWindows()
+    public string SafeGet(Func<string> getter)
     {
-        if (_app == null || _automation == null)
-            return;
-
-        var windows = _app.GetAllTopLevelWindows(_automation);
-
-        Console.WriteLine("Writing all detected top level windows to console.");
-
-        foreach (var window in windows)
+        try
         {
-            Console.WriteLine(
-                $"Window: Name='{window.Name}', " +
-                $"AutomationId='{window.AutomationId}', " +
-                $"ClassName='{window.ClassName}'");
+            return getter() ?? "<null>";
+        }
+        catch
+        {
+            return "<not supported>";
         }
     }
+    public void PrintElement(AutomationElement element, int depth = 0)
+    {
+        string indent = new string(' ', depth * 2);
+
+        string name = SafeGet(() => element.Name);
+        string automationId = SafeGet(() => element.AutomationId);
+        string className = SafeGet(() => element.ClassName);
+
+        Console.WriteLine(
+            $"{indent}" +
+            $"Type='{element.ControlType}' | " +
+            $"Name='{name}' | " +
+            $"AutomationId='{automationId}' | " +
+            $"ClassName='{className}'");
+
+        foreach (var child in element.FindAllChildren())
+        {
+            PrintElement(child, depth + 1);
+        }
+    }
+    public void PrintTree(int depth = 0)
+    {
+        if (_app == null)
+        {
+            return;
+        }
+
+        if (MainWindow == null)
+        {
+            return;
+        }
+
+        PrintElement(MainWindow, 0);
+    }
+
     public bool Launch()
     {
         _app = Application.Launch(_ediPath);

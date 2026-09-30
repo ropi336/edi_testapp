@@ -9,39 +9,6 @@ namespace TestApp;
 
 internal class Program
 {
-    static string SafeGet(Func<string> getter)
-    {
-        try
-        {
-            return getter() ?? "<null>";
-        }
-        catch
-        {
-            return "<not supported>";
-        }
-    }
-
-    static void PrintTree(AutomationElement element, int depth = 0)
-    {
-        string indent = new string(' ', depth * 2);
-
-        string name = SafeGet(() => element.Name);
-        string automationId = SafeGet(() => element.AutomationId);
-        string className = SafeGet(() => element.ClassName);
-
-        Console.WriteLine(
-            $"{indent}" +
-            $"Type='{element.ControlType}' | " +
-            $"Name='{name}' | " +
-            $"AutomationId='{automationId}' | " +
-            $"ClassName='{className}'");
-
-        foreach (var child in element.FindAllChildren())
-        {
-            PrintTree(child, depth + 1);
-        }
-    }
-
     static void Main()
     {
         bool running = true;

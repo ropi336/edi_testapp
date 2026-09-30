@@ -50,9 +50,9 @@ internal class FileNewFileSaveAs
 
         Thread.Sleep(300);
 
-        Console.WriteLine("Printing all windows");
+        Console.WriteLine("Printing all UI Elements");
 
-        edi.PrintAllWindows();
+        //edi.PrintTree();
 
         Console.ReadLine();
 
