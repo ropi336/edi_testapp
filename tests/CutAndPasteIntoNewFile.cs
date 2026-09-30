@@ -16,6 +16,7 @@ internal class CutAndPaste
         string ediPath = @"D:\CPROJECT\Edi-1.2\Debug\Edi.exe";
 
         string filePath = "D:\\CPROJECT\\edi_testapp\\edi_testapp\\testapp_savedir\\Cut.txt";
+        string filePathBackup = "D:\\CPROJECT\\edi_testapp\\edi_testapp\\testapp_backupfiles\\Cut.txt";
         
         string newFilePath = "D:\\CPROJECT\\edi_testapp\\edi_testapp\\testapp_savedir\\NewFilePaste.txt";
 
@@ -31,6 +32,10 @@ internal class CutAndPaste
 
         Console.WriteLine($"Preparing test case prerequisites.");
 
+        File.Copy(filePathBackup, filePath, true);
+
+        Thread.Sleep(1000);
+
         edi.CloseAllDocuments();
         edi.OpenFile(filePath, cPopUpOpenButtonId);
 
@@ -45,6 +50,10 @@ internal class CutAndPaste
         edi.LogResult("Expand 'Edit' Menu item", true, edi.ExpandMenuItemByName("Edit"));
 
         edi.LogResult("Invoke 'Cut' Menu item", true, edi.InvokeMenuItemByName("Cut"));
+
+        edi.InvokeButtonByName("Save");
+
+        Thread.Sleep(600);
 
         edi.LogResult("Compare document contents after Cut action.", cExpectedEmptyContents, edi.GetDocumentContents());
 

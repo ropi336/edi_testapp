@@ -57,7 +57,6 @@ internal class CopyPaste
 
         edi.LogResult("Invoke 'Save' Menu item", true, edi.InvokeMenuItemByName("Save"));
 
-
         Console.WriteLine("Saving file to disk..");
 
         Thread.Sleep(1800);
@@ -65,8 +64,6 @@ internal class CopyPaste
         string actualContents = edi.GetFileContents(filePath);
 
         edi.LogResult("Compare file contents after save", cExpectedFileContents, actualContents);
-
-        Console.ReadLine();
 
         Thread.Sleep(1000);
 

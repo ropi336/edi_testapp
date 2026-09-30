@@ -409,6 +409,19 @@ internal class TestManager : IDisposable
         element.AsButton().Invoke();
         return true;
     }
+    public bool InvokeSplitButtonInWindow(AutomationElement window, string automationId)
+    {
+        var element = window?.FindFirstDescendant(
+            cf => cf.ByAutomationId(automationId).And(cf.ByControlType(ControlType.SplitButton)));
+
+        if (element == null)
+        {
+            return false;
+        }
+
+        element.AsButton().Invoke();
+        return true;
+    }
 
     public bool CheckOverwritePrompt(AutomationElement window)
     {
@@ -446,14 +459,22 @@ internal class TestManager : IDisposable
 
         if (!CompletePopUpProcedure("Open", path))
         {
+            Console.WriteLine("Failed to add path to file");
             return false;
         }
 
         AutomationElement openWindow = FindWindowByName("Open");
 
+        Thread.Sleep(300);
+
         if (!InvokeButtonInWindow(openWindow, buttonId))
         {
-            return false;
+            Console.WriteLine("Couldn't find Buttontype, trying splitbutton");
+            if (!InvokeSplitButtonInWindow(openWindow, buttonId))
+            {
+                Console.WriteLine("Failed to press button");
+                return false;
+            }
         }
         return true;
     }
