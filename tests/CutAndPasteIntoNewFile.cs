@@ -15,8 +15,8 @@ internal class CutAndPaste
     {
         string ediPath = @"D:\CPROJECT\Edi-1.2\Debug\Edi.exe";
 
-        string filePath = "D:\\CPROJECT\\edi_testapp\\edi_testapp\\testapp_savedir\\Cut.txt";
-        string filePathBackup = "D:\\CPROJECT\\edi_testapp\\edi_testapp\\testapp_backupfiles\\Cut.txt";
+        string filePath = TestPaths.TestFile("Cut.txt");
+        string filePathBackup = TestPaths.BackupFile("Cut.txt");
         
         string newFilePath = "D:\\CPROJECT\\edi_testapp\\edi_testapp\\testapp_savedir\\NewFilePaste.txt";
 

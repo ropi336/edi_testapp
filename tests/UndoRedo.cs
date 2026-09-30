@@ -14,7 +14,7 @@ internal class UndoRedo
     {
         string ediPath = @"D:\CPROJECT\Edi-1.2\Debug\Edi.exe";
 
-        string filePath = "D:\\CPROJECT\\edi_testapp\\edi_testapp\\testapp_savedir\\UndoRedo.txt";
+        string filePath = TestPaths.TestFile("UndoRedo.txt");
 
         using var edi = new TestManager(ediPath);
 

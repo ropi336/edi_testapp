@@ -15,9 +15,9 @@ internal class AutoOpenRecents
     {
         string ediPath = @"D:\CPROJECT\Edi-1.2\Debug\Edi.exe";
 
-        string filePathCopyPaste = "D:\\CPROJECT\\edi_testapp\\edi_testapp\\testapp_savedir\\CopyPaste.txt";
-        string filePathCut = "D:\\CPROJECT\\edi_testapp\\edi_testapp\\testapp_savedir\\Cut.txt";
-        string filePathOpenRecent = "D:\\CPROJECT\\edi_testapp\\edi_testapp\\testapp_savedir\\OpenRecent.txt";
+        string filePathCopyPaste = TestPaths.TestFile("CopyPaste.txt");
+        string filePathCut = TestPaths.TestFile("Cut.txt");
+        string filePathOpenRecent = TestPaths.TestFile("OpenRecent.txt");
 
         const string cPopUpOpenButtonId = "1";
 

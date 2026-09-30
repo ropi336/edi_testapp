@@ -15,9 +15,9 @@ internal class CopyPaste
     {
         string ediPath = @"D:\CPROJECT\Edi-1.2\Debug\Edi.exe";
 
-        string filePath = "D:\\CPROJECT\\edi_testapp\\edi_testapp\\testapp_savedir\\CopyPaste.txt";
+        string filePath = TestPaths.TestFile("CopyPaste.txt");
 
-        string filePathBackup = "D:\\CPROJECT\\edi_testapp\\edi_testapp\\testapp_backupfiles\\CopyPaste.txt";
+        string filePathBackup = TestPaths.BackupFile("CopyPaste.txt");
 
         File.Copy(filePathBackup, filePath, true);
 

@@ -14,7 +14,7 @@ internal class FileOpen
 
         using var edi = new TestManager(ediPath);
 
-        string filePath = "D:\\CPROJECT\\edi_testapp\\edi_testapp\\testapp_savedir\\TextContent.txt";
+        string filePath = TestPaths.TestFile("TextContent.txt");
 
         const string cPopUpOpenButtonId = "1";
 

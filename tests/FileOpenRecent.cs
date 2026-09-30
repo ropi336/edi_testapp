@@ -12,7 +12,7 @@ internal class FileOpenRecent
     {
         string ediPath = @"D:\CPROJECT\Edi-1.2\Debug\Edi.exe";
 
-        string filePath = "D:\\CPROJECT\\edi_testapp\\edi_testapp\\testapp_savedir\\OpenRecent.txt";
+        string filePath = TestPaths.TestFile("OpenRecent.txt");
 
         using var edi = new TestManager(ediPath);
 

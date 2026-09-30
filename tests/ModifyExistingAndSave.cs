@@ -15,8 +15,8 @@ internal class ModifyExistingAndSave
     {
         string ediPath = @"D:\CPROJECT\Edi-1.2\Debug\Edi.exe";
 
-        string filePath = "D:\\CPROJECT\\edi_testapp\\edi_testapp\\testapp_savedir\\Modify.txt";
-        string filePathBackup = "D:\\CPROJECT\\edi_testapp\\edi_testapp\\testapp_backupfiles\\Modify.txt";
+        string filePath = TestPaths.TestFile("Modify.txt");
+        string filePathBackup = TestPaths.BackupFile("Modify.txt");
 
         using var edi = new TestManager(ediPath);
 

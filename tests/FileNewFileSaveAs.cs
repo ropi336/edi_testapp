@@ -13,7 +13,7 @@ internal class FileNewFileSaveAs
     {
         string ediPath = @"D:\CPROJECT\Edi-1.2\Debug\Edi.exe";
 
-        string filePath = "D:\\CPROJECT\\edi_testapp\\edi_testapp\\testapp_savedir\\Untitled.txt";
+        string filePath = TestPaths.TestFile("Untitled.txt");
 
         using var edi = new TestManager(ediPath);
 
