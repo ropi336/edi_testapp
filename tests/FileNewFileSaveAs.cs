@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Windows.Forms;
 using FlaUI.Core;
 using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Definitions;
@@ -47,28 +48,33 @@ internal class FileNewFileSaveAs
 
         Console.WriteLine("[PASS] Save As invoked.");
 
+        Thread.Sleep(300);
+
+        AutomationElement saveAsWindow = edi.FindWindowByName("Save As");
+
+        AutomationElement fileNameBox = edi.FindFileNameInput(saveAsWindow);
+
+        var textBox = fileNameBox.AsTextBox();
+
+        if (textBox != null)
+        {
+            textBox.Text = "D:\\CPROJECT\\edi_testapp\\edi_testapp\\testapp_savedir\\Untitled.txt";
+        }
+
+        //edi.PrintTree();
+
+        //Click Save
+        edi.InvokeButtonInWindow(saveAsWindow, "1");
 
         Thread.Sleep(300);
 
-        Console.WriteLine("Printing all UI Elements");
-
-        var saveAsWindow = edi.MainWindow.FindFirstDescendant(
-        cf => cf.ByControlType(ControlType.Window).And(cf.ByName("Save As")));
-
-        //edi.PrintTree(saveAsWindow);
-
-        AutomationElement addressToolbar = edi.FindAddressToolbar(saveAsWindow);
-
-        var patterns = addressToolbar.GetSupportedPatterns();
-
-        foreach (var pattern in patterns)
+        //Check for overwrite prompt, then click yes if exists
+        if (edi.CheckOverwritePrompt(saveAsWindow) == true)
         {
-            Console.WriteLine(pattern);
+            edi.InvokeButtonInWindow(saveAsWindow, "6");
         }
 
         Console.ReadLine();
-
-        Thread.Sleep(5000);
 
         edi.Close();
     }

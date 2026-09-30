@@ -2,6 +2,7 @@
 using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Definitions;
 using FlaUI.UIA3;
+using System;
 
 namespace TestApp;
 internal class TestManager : IDisposable
@@ -68,22 +69,18 @@ internal class TestManager : IDisposable
         PrintElement(element, 0);
     }
 
-    public AutomationElement? FindAddressToolbar(AutomationElement saveAsWindow)
+    public AutomationElement? FindFileNameInput(AutomationElement saveAsWindow)
     {
-        var toolbars = saveAsWindow.FindAllDescendants(
-            cf => cf.ByControlType(ControlType.ToolBar));
+        var fileNameBox = saveAsWindow.FindFirstDescendant(
+            cf => cf.ByControlType(ControlType.Edit)
+            .And(cf.ByName("File name:")));
 
-        foreach (var toolbar in toolbars)
+        if (fileNameBox == null)
         {
-            string name = SafeGet(() => toolbar.Name);
-
-            if (name.Contains("Address:", StringComparison.OrdinalIgnoreCase))
-            {
-                return toolbar;
-            }
+            Console.WriteLine("[FAIL] File name field not found.");
         }
 
-        return null;
+        return fileNameBox;
     }
 
     public bool Launch()
@@ -117,6 +114,58 @@ internal class TestManager : IDisposable
 
         element.AsButton().Invoke();
         return true;
+    }
+    public AutomationElement? FindWindowByName(string name)
+    {
+        var window = MainWindow.FindFirstDescendant(
+            cf => cf.ByControlType(ControlType.Window).And(cf.ByName(name)));
+        if (window == null)
+        {
+            Console.WriteLine("Failed to find Window.");
+            return null; 
+        }
+
+        return window;
+    }
+    public bool InvokeButtonInWindow(AutomationElement window, string automationId)
+    {
+        var element = window?.FindFirstDescendant(
+            cf => cf.ByAutomationId(automationId).And(cf.ByControlType(ControlType.Button)));
+
+        if (element == null)
+        {
+            return false;
+        }
+
+        element.AsButton().Invoke();
+        return true;
+    }
+    public bool CheckOverwritePrompt(AutomationElement window)
+    {
+        var overrideWindow = window.FindFirstDescendant(
+            cf => cf.ByControlType(ControlType.Window));
+
+        if (overrideWindow == null)
+        {
+            return false;
+        }
+
+        var textElements = overrideWindow?.FindAllDescendants(cf => cf.ByControlType(ControlType.Text));
+
+        if (textElements == null)
+        {
+            return false;
+        }
+
+        foreach (var element in textElements)
+        {
+            string name = SafeGet(() => element.Name);
+            if (name.Contains("already exists", StringComparison.OrdinalIgnoreCase))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void Close()
