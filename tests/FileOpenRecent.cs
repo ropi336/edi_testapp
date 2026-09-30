@@ -6,25 +6,50 @@ using FlaUI.UIA3;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace TestApp.Tests;
-internal class FileOpen
+internal class FileOpenRecent
 {
     public static void Run()
     {
         string ediPath = @"D:\CPROJECT\Edi-1.2\Debug\Edi.exe";
 
+        string filePath = "D:\\CPROJECT\\edi_testapp\\edi_testapp\\testapp_savedir\\OpenRecent.txt";
+
         using var edi = new TestManager(ediPath);
 
-        string filePath = "D:\\CPROJECT\\edi_testapp\\edi_testapp\\testapp_savedir\\TextContent.txt";
+        const string cExpectedFileContents = "OpenRecent";
 
         const string cPopUpOpenButtonId = "1";
-
-        const string cExpectedFileContents = "SampleText";
 
         if (!edi.Launch())
         {
             Console.WriteLine($"Could not launch EDI.");
         }
         Console.WriteLine($"Launched EDI.");
+
+        Console.WriteLine($"Preparing test case prerequisites.");
+
+        edi.CloseAllDocuments();
+        edi.ExpandMenuItemByName("File");
+        edi.ExpandMenuItemByName("Open");
+        edi.InvokeMenuItemByName("Text files");
+
+        Thread.Sleep(200);
+
+        edi.CompletePopUpProcedure("Open", filePath);
+
+        Thread.Sleep(200);
+
+        AutomationElement openWindow = edi.FindWindowByName("Open");
+
+        edi.InvokeButtonInWindow(openWindow, cPopUpOpenButtonId);
+
+        Thread.Sleep(200);
+
+        edi.CloseAllDocuments();
+
+        Thread.Sleep(200);
+
+        Console.WriteLine($"Commencing test.");
 
         if (!edi.ExpandMenuItemByName("File"))
         {
@@ -40,30 +65,23 @@ internal class FileOpen
             return;
         }
 
-        Console.WriteLine("[PASS] Invoked 'Open' item.");
+        Console.WriteLine("[PASS] Expanded 'Open' Menu Item.");
 
-        if (!edi.InvokeMenuItemByName("Text files"))
+        if (!edi.ExpandMenuItemByName("Recent Documents"))
         {
-            Console.WriteLine("[FAIL] 'Text files' Menu Item was not found.");
+            Console.WriteLine("[FAIL] 'Recent Documents' Menu Item was not found.");
             return;
         }
 
-        Console.WriteLine("[PASS] Invoked 'Text files' item.");
+        Console.WriteLine("[PASS] Expanded 'Recent Documents' Menu Item.");
 
-        // edi.PrintTree();
-
-        Thread.Sleep(300);
-
-        edi.CompletePopUpProcedure("Open", filePath);
-
-        AutomationElement openWindow = edi.FindWindowByName("Open");
-
-        if (!edi.InvokeButtonInWindow(openWindow, cPopUpOpenButtonId))
+        if (!edi.OpenFirstRecentDocument())
         {
-            Console.WriteLine("[FAIL] Could not Invoke 'Open' Button.");
+            Console.WriteLine("[FAIL] Failed to open most recent document.");
             return;
         }
-        Console.WriteLine("[PASS] Successfully Invoked 'Open' Button.");
+
+        Console.WriteLine("[PASS] Opened most recent document successfully.");
 
         Thread.Sleep(200);
 
@@ -73,7 +91,7 @@ internal class FileOpen
         }
         else
         {
-            Console.WriteLine("[FAIL] Opened file contents failed to match expected result.");
+            Console.WriteLine("[FAIL] Opened file contents did not match expected result.");
         }
 
         Thread.Sleep(1000);

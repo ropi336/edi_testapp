@@ -101,7 +101,7 @@ internal class TestManager : IDisposable
 
     public void PrintEditableTextBoxContents(string automationId)
     {
-        var editors = MainWindow.FindFirstDescendant(
+        var editors = MainWindow?.FindFirstDescendant(
             cf => cf.ByAutomationId(automationId).And(cf.ByControlType(ControlType.Edit)));
 
         if (editors == null)
@@ -116,6 +116,35 @@ internal class TestManager : IDisposable
         string text = textPattern.DocumentRange.GetText(-1);
 
         Console.WriteLine($"TextPattern: '{text}'");
+    }
+
+    public string GetDocumentContents()
+    {
+        var ediView = MainWindow?.FindFirstDescendant(
+            cf => cf.ByClassName("EdiView"));
+
+        if (ediView == null)
+        {
+            Console.WriteLine("EdiView not found.");
+            return "null";
+        }
+
+        var editor = ediView.FindFirstChild(
+            cf => cf.ByControlType(ControlType.Custom));
+
+        if (editor == null)
+        {
+            Console.WriteLine("Editor not found.");
+            return "null";
+        }
+
+        if (!editor.Patterns.Value.IsSupported)
+        {
+            Console.WriteLine("Editor does not support ValuePattern.");
+            return "null";
+        }
+
+        return editor.Patterns.Value.Pattern.Value;
     }
 
     public void GetEdiView()
@@ -166,9 +195,20 @@ internal class TestManager : IDisposable
         element.AsButton().Invoke();
         return true;
     }
+    public bool InvokeButtonByName(string name)
+    {
+        var element = MainWindow?.FindFirstDescendant(
+            cf => cf.ByName(name));
+
+        if (element == null)
+            return false;
+
+        element.AsButton().Invoke();
+        return true;
+    }
     public AutomationElement? FindWindowByName(string name)
     {
-        var window = MainWindow.FindFirstDescendant(
+        var window = MainWindow?.FindFirstDescendant(
             cf => cf.ByControlType(ControlType.Window).And(cf.ByName(name)));
         if (window == null)
         {
@@ -203,6 +243,49 @@ internal class TestManager : IDisposable
         return true;
     }
 
+    public void CloseAllDocuments()
+    {
+        if (MainWindow == null)
+            return;
+
+        while (true)
+        {
+            var closeButton = MainWindow.FindFirstDescendant(
+                cf => cf.ByControlType(ControlType.Button)
+                        .And(cf.ByAutomationId("DocumentCloseButton")));
+
+            if (closeButton == null)
+                break;
+
+            closeButton.AsButton().Invoke();
+
+            Thread.Sleep(100);
+        }
+    }
+
+    public bool OpenFirstRecentDocument()
+    {
+        if (MainWindow == null)
+            return false;
+
+        var recentDocuments = MainWindow.FindFirstDescendant(
+            cf => cf.ByControlType(ControlType.MenuItem)
+                    .And(cf.ByName("Recent Documents")));
+
+        if (recentDocuments == null)
+            return false;
+
+        var firstRecent = recentDocuments.FindFirstChild(
+            cf => cf.ByControlType(ControlType.MenuItem));
+
+        if (firstRecent == null)
+            return false;
+
+        firstRecent.Patterns.Invoke.Pattern.Invoke();
+
+        return true;
+    }
+
     public bool CompletePopUpProcedure(string window, string path)
     {
         var popUpWindow = FindWindowByName(window);
@@ -230,7 +313,6 @@ internal class TestManager : IDisposable
 
         return true;
     }
-
 
     public bool InvokeButtonInWindow(AutomationElement window, string automationId)
     {

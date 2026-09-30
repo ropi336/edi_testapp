@@ -22,6 +22,7 @@ internal class Program
             Console.WriteLine();
             Console.WriteLine("1. File - New File - Save As");
             Console.WriteLine("2. File - Open");
+            Console.WriteLine("3. File - Open Recent");
             Console.WriteLine("0. Exit");
             Console.WriteLine();
 
@@ -38,6 +39,10 @@ internal class Program
 
                 case "2":
                     FileOpen.Run();
+                    break;
+
+                case "3":
+                    FileOpenRecent.Run();
                     break;
 
                 case "0":
