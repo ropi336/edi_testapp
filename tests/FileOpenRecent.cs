@@ -20,11 +20,7 @@ internal class FileOpenRecent
 
         const string cPopUpOpenButtonId = "1";
 
-        if (!edi.Launch())
-        {
-            Console.WriteLine($"Could not launch EDI.");
-        }
-        Console.WriteLine($"Launched EDI.");
+        edi.LogResult("Launching EDI", true, edi.Launch());
 
         Console.WriteLine($"Preparing test case prerequisites.");
 
@@ -51,48 +47,17 @@ internal class FileOpenRecent
 
         Console.WriteLine($"Commencing test.");
 
-        if (!edi.ExpandMenuItemByName("File"))
-        {
-            Console.WriteLine("[FAIL] 'File' Menu Item was not found.");
-            return;
-        }
+        edi.LogResult("Expand 'File' menu item", true, edi.ExpandMenuItemByName("File"));
 
-        Console.WriteLine("[PASS] Expanded 'File' Menu Item.");
+        edi.LogResult("Expand 'Open' menu item", true, edi.ExpandMenuItemByName("Open"));
 
-        if (!edi.ExpandMenuItemByName("Open"))
-        {
-            Console.WriteLine("[FAIL] 'Open' Menu Item was not found.");
-            return;
-        }
+        edi.LogResult("Expand recent documents menu item", true, edi.ExpandMenuItemByName("Recent Documents"));
 
-        Console.WriteLine("[PASS] Expanded 'Open' Menu Item.");
-
-        if (!edi.ExpandMenuItemByName("Recent Documents"))
-        {
-            Console.WriteLine("[FAIL] 'Recent Documents' Menu Item was not found.");
-            return;
-        }
-
-        Console.WriteLine("[PASS] Expanded 'Recent Documents' Menu Item.");
-
-        if (!edi.OpenFirstRecentDocument())
-        {
-            Console.WriteLine("[FAIL] Failed to open most recent document.");
-            return;
-        }
-
-        Console.WriteLine("[PASS] Opened most recent document successfully.");
+        edi.LogResult("Open most recent document.", true, edi.OpenFirstRecentDocument());
 
         Thread.Sleep(200);
 
-        if (cExpectedFileContents == edi.GetDocumentContents())
-        {
-            Console.WriteLine("[PASS] Opened file contents match expected result.");
-        }
-        else
-        {
-            Console.WriteLine("[FAIL] Opened file contents did not match expected result.");
-        }
+        edi.LogResult("Compare document contents after opening document.", cExpectedFileContents, edi.GetDocumentContents());
 
         Thread.Sleep(1000);
 

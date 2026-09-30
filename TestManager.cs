@@ -14,6 +14,30 @@ internal class TestManager : IDisposable
 
     public Window? MainWindow { get; private set; }
 
+    private readonly List<string> _testResults = new();
+
+    public void LogResult<T>(string message, T expected, T actual)
+    {
+        bool passed = EqualityComparer<T>.Default.Equals(expected, actual);
+
+        string result = $"[{(passed ? "PASS" : "FAIL")}] {message}";
+
+        _testResults.Add(result);
+        Console.WriteLine(result);
+
+        if (!passed)
+        {
+            string expectedLine = $"       Expected: {expected}";
+            string actualLine = $"       Actual:   {actual}";
+
+            _testResults.Add(expectedLine);
+            _testResults.Add(actualLine);
+
+            Console.WriteLine(expectedLine);
+            Console.WriteLine(actualLine);
+        }
+    }
+
     public TestManager(string ediPath)
     {
         _ediPath = ediPath;
@@ -144,6 +168,7 @@ internal class TestManager : IDisposable
             return "null";
         }
 
+
         return editor.Patterns.Value.Pattern.Value;
     }
 
@@ -184,6 +209,29 @@ internal class TestManager : IDisposable
         return MainWindow?.FindFirstDescendant(
             cf => cf.ByName(name));
     }
+
+    public bool FindTabByName(string name)
+    {
+        if (MainWindow == null)
+        {
+            return false;
+        }
+
+        var tabs = MainWindow.FindAllDescendants(
+        cf => cf.ByControlType(ControlType.TabItem));
+
+        foreach (var tab in tabs)
+        {
+            var title = tab.FindFirstDescendant(cf => cf.ByControlType(ControlType.Text).And(cf.ByName(name)));
+
+            if (title != null)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     public bool InvokeButton(string automationId)
     {
@@ -359,6 +407,26 @@ internal class TestManager : IDisposable
     public bool FileExists(string filePath)
     {
         return File.Exists(filePath);
+    }
+
+    public string GetFileContents(string filePath)
+    {
+        if (!File.Exists(filePath))
+        {
+            return "null";
+
+        }
+
+        return File.ReadAllText(filePath);
+    }
+
+    public bool DeleteFile(string filePath)
+    {
+        if (!File.Exists(filePath))
+            return false;
+
+        File.Delete(filePath);
+        return true;
     }
 
     public void Close()

@@ -15,94 +15,57 @@ internal class FileNewFileSaveAs
 
         string filePath = "D:\\CPROJECT\\edi_testapp\\edi_testapp\\testapp_savedir\\Untitled.txt";
 
-        int testPasses = 0;
-
         using var edi = new TestManager(ediPath);
 
         const string cOverridePopUpYesButtonId = "6";
-        const string cSaveAsPopUpSaveButtonId = "1";
-        
-        if (!edi.Launch())
-        {
-            Console.WriteLine($"Could not launch EDI.");
-        }
-        Console.WriteLine($"Launched EDI.");
+        const string cPopUpSaveButton = "1";
 
-        if (!edi.ExpandMenuItemByName("File"))
-        {
-            Console.WriteLine("[FAIL] 'File' Menu Item was not found.");
-            return;
-        }
-        Console.WriteLine("[PASS] Expanded 'File' Menu Item.");
+        edi.DeleteFile(filePath);
 
-        if (!edi.ExpandMenuItemByName("New"))
-        {
-            Console.WriteLine("[FAIL] 'New' Menu Item was not found.");
-            return;
-        }
-        Console.WriteLine("[PASS] Expanded 'New' Menu Item.");
+        edi.LogResult("Launching EDI", true, edi.Launch());
 
-        if (!edi.InvokeMenuItemByName("Text Document"))
-        {
-            Console.WriteLine("[FAIL] 'Text Document' Menu Item was not found.");
-            return;
-        }
-        Console.WriteLine("[PASS] Invoked 'Text Document' Menu item.");
+        edi.CloseAllDocuments();
+
+        edi.LogResult("Expand 'File' menu item", true, edi.ExpandMenuItemByName("File"));
+
+        edi.LogResult("Expand 'New' menu item", true, edi.ExpandMenuItemByName("New"));
+
+        edi.LogResult("Invoke 'Text Document' Menu item", true, edi.InvokeMenuItemByName("Text Document"));
 
         Thread.Sleep(100);
 
-        var untitled = edi.FindByName("Untitled.txt");
+        //Check available tabs if new file exists
+        edi.LogResult("Search for any tab named Untitled.txt", true, edi.FindTabByName("Untitled.txt"));
 
-        if (untitled == null)
-        {
-            Console.WriteLine("[FAIL] Untitled.txt was not found.");
-            return;
-        }
-        Console.WriteLine("[PASS] Untitled.txt has been created.");
+        edi.LogResult("Expand 'File' menu item", true, edi.ExpandMenuItemByName("File"));
 
-        if (!edi.ExpandMenuItemByName("File"))
-        {
-            Console.WriteLine("[FAIL] File Menu Item was not found.");
-            return;
-        }
-        Console.WriteLine("[PASS] Expanded 'File' Menu Item.");
-
-        if (!edi.InvokeMenuItemByName("Save As"))
-        {
-            Console.WriteLine("[FAIL] 'Save As' Menu Item was not found.");
-            return;
-        }
-        Console.WriteLine("[PASS] Invoked 'Save As' item.");
+        edi.LogResult("Invoke 'Save As' Menu item", true, edi.InvokeMenuItemByName("Save As"));
 
         Thread.Sleep(300);
 
-        if (!edi.CompletePopUpProcedure("Save As", filePath))
-        {
-            Console.WriteLine("[FAIL] Path could not be added to 'Save As' popup.");
-        }
-        Console.WriteLine("[PASS] Path was successfully added to 'Save As' popup.");
+        edi.LogResult("Input file path to Save As popup", true, edi.CompletePopUpProcedure("Save As", filePath));
 
         AutomationElement saveAsWindow = edi.FindWindowByName("Save As");
 
         //Click Save
-        edi.InvokeButtonInWindow(saveAsWindow, cSaveAsPopUpSaveButtonId);
+        edi.LogResult("Invoke Save Button", true, edi.InvokeButtonInWindow(saveAsWindow, cPopUpSaveButton));
 
         Thread.Sleep(300);
 
-        //Check for overwrite prompt, then click yes if exists
+        //Check for overwrite prompt, then click yes if exists.
+        //Always skip the overwrite prompt silently.
         if (edi.CheckOverwritePrompt(saveAsWindow) == true)
         {
             edi.InvokeButtonInWindow(saveAsWindow, cOverridePopUpYesButtonId);
         }
 
-        if (edi.FileExists(filePath))
-        {
-            Console.WriteLine("[PASS] New file was successfully saved to storage.");
-        }
-        else
-        {
-            Console.WriteLine("[FAIL] The file could not be saved to storage.");
-        }
+        Console.WriteLine("Saving File...");
+
+        Thread.Sleep(500);
+
+        edi.LogResult("Checking saved file status", true, edi.FileExists(filePath));
+
+        edi.CloseAllDocuments();
 
         Thread.Sleep(1000);
 

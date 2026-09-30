@@ -3,22 +3,23 @@ using System.Windows.Forms;
 using FlaUI.Core;
 using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Definitions;
+using FlaUI.Core.Input;
 using FlaUI.UIA3;
 using Microsoft.VisualBasic;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace TestApp.Tests;
-internal class UndoRedo
+internal class CopyPaste
 {
     public static void Run()
     {
         string ediPath = @"D:\CPROJECT\Edi-1.2\Debug\Edi.exe";
 
-        string filePath = "D:\\CPROJECT\\edi_testapp\\edi_testapp\\testapp_savedir\\UndoRedo.txt";
+        string filePath = "D:\\CPROJECT\\edi_testapp\\edi_testapp\\testapp_savedir\\CopyPaste.txt";
 
         using var edi = new TestManager(ediPath);
 
-        string ExpectedFileContents = "";
+        string cExpectedFileContents = "CopyThisString\r\nCopyThisString";
 
         const string cPopUpOpenButtonId = "1";
 
@@ -51,41 +52,32 @@ internal class UndoRedo
 
         edi.LogResult("Expand 'Edit' Menu item", true, edi.ExpandMenuItemByName("Edit"));
 
-        edi.LogResult("Invoke 'Delete' Menu item", true, edi.InvokeMenuItemByName("Delete"));
+        edi.LogResult("Invoke 'Copy' Menu item", true, edi.InvokeMenuItemByName("Copy"));
 
-        edi.LogResult("Compare document contents after delete action.", ExpectedFileContents, edi.GetDocumentContents());
-
-        edi.LogResult("Expand 'Edit' Menu item", true, edi.ExpandMenuItemByName("Edit"));
-
-        edi.LogResult("Invoke 'Undo' Menu item", true, edi.InvokeMenuItemByName("Undo"));
-
-        Thread.Sleep(300);
-
-        ExpectedFileContents = "DeleteThisStringOfText";
-
-        edi.LogResult("Compare document contents after Undo action.", ExpectedFileContents, edi.GetDocumentContents());
+        //Keyboard operation to move one line down.
+        Keyboard.Press(FlaUI.Core.WindowsAPI.VirtualKeyShort.RIGHT);
+        Keyboard.Press(FlaUI.Core.WindowsAPI.VirtualKeyShort.ENTER);
 
         edi.LogResult("Expand 'Edit' Menu item", true, edi.ExpandMenuItemByName("Edit"));
 
-        edi.LogResult("Invoke 'Undo' Menu item", true, edi.InvokeMenuItemByName("Redo"));
+        edi.LogResult("Invoke 'Paste' Menu item", true, edi.InvokeMenuItemByName("Paste"));
 
-        Thread.Sleep(300);
-
-        ExpectedFileContents = "";
-
-        edi.LogResult("Compare document contents after Redo action.", ExpectedFileContents, edi.GetDocumentContents());
+        edi.LogResult("Compare document contents after paste action.", cExpectedFileContents, edi.GetDocumentContents());
 
         edi.LogResult("Expand 'File' Menu item", true, edi.ExpandMenuItemByName("File"));
 
         edi.LogResult("Invoke 'Save' Menu item", true, edi.InvokeMenuItemByName("Save"));
 
+
         Console.WriteLine("Saving file to disk..");
 
-        Thread.Sleep(3000);
+        Thread.Sleep(1800);
 
         string actualContents = edi.GetFileContents(filePath);
 
-        edi.LogResult("Compare file contents after save", "", actualContents);
+        edi.LogResult("Compare file contents after save", cExpectedFileContents, actualContents);
+
+        Console.ReadLine();
 
         Thread.Sleep(1000);
 

@@ -23,6 +23,13 @@ internal class Program
             Console.WriteLine("1. File - New File - Save As");
             Console.WriteLine("2. File - Open");
             Console.WriteLine("3. File - Open Recent");
+            Console.WriteLine("4. Copy - Paste");
+            Console.WriteLine("5. Cut from file and paste into a new file");
+            Console.WriteLine("6. Undo - Redo");
+            Console.WriteLine("7. Automatically Open Recents");
+            Console.WriteLine("8. Close A document");
+            Console.WriteLine("9. Modify and save an existing document");
+            Console.WriteLine("10. Open multiple files - Switch tabs");
             Console.WriteLine("0. Exit");
             Console.WriteLine();
 
@@ -43,6 +50,18 @@ internal class Program
 
                 case "3":
                     FileOpenRecent.Run();
+                    break;
+                    
+                case "4":
+                    CopyPaste.Run();
+                    break;
+
+                case "5":
+                    CutAndPaste.Run();
+                    break;
+                    
+                case "6":
+                    UndoRedo.Run();
                     break;
 
                 case "0":
