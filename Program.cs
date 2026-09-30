@@ -41,44 +41,76 @@ internal class Program
             switch (selection)
             {
                 case "1":
+                {
                     FileNewFileSaveAs.Run();
                     break;
+                }
 
                 case "2":
+                {
                     FileOpen.Run();
                     break;
+                }
 
                 case "3":
+                {
                     FileOpenRecent.Run();
                     break;
+                }
                     
                 case "4":
+                {
                     CopyPaste.Run();
                     break;
+                }
 
                 case "5":
+                {
                     CutAndPaste.Run();
                     break;
+                }
                     
                 case "6":
+                {
                     UndoRedo.Run();
                     break;
+                }
                     
                 case "7":
+                {
                     AutoOpenRecents.Run();
                     break;
+                }
 
                 case "8":
+                { 
                     CloseDocument.Run();
                     break;
+                }
+
+                case "9":
+                {
+                    ModifyExistingAndSave.Run();
+                    break;
+                }
+
+                case "10":
+                {
+                    SwitchTabs.Run();
+                    break;
+                }
 
                 case "0":
+                {
                     running = false;
                     break;
+                }
 
                 default:
+                {
                     Console.WriteLine("Invalid selection.");
                     break;
+                }
             }
 
             if (running)

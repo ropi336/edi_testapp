@@ -232,6 +232,20 @@ internal class TestManager : IDisposable
         return null;
     }
 
+    public bool SelectTabByName(string name)
+    {
+        var tab = FindTabByName(name);
+
+        if (tab == null)
+        {
+            return false;
+        }
+
+        tab.AsTabItem().Select();
+
+        return true;
+    }
+
     public bool TabExists(string name)
     {
         var tab = FindTabByName(name);
