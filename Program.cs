@@ -1,10 +1,11 @@
 ﻿using System.Diagnostics;
+using TestApp.Tests;
 using FlaUI.Core;
 using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Definitions;
 using FlaUI.UIA3;
 
-namespace Edi.TestApp;
+namespace TestApp;
 
 internal class Program
 {
@@ -40,76 +41,48 @@ internal class Program
             PrintTree(child, depth + 1);
         }
     }
+
     static void Main()
     {
-        string ediPath = @"D:\CPROJECT\Edi-1.2\Debug\Edi.exe";
+        bool running = true;
 
-        Console.WriteLine("Starting Edi");
-
-        using var application = Application.Launch(ediPath);
-
-        using var automation = new UIA3Automation();
-
-        var window = application.GetMainWindow(automation);
-
-        if (window == null)
+        while (running)
         {
-            Console.WriteLine("FAIL: Could find Edi window.");
-            return;
-        }
+            Console.Clear();
 
-        Console.WriteLine($"Found window: {window.Title}");
+            Console.WriteLine("EDI AUTOMATED TEST MANAGER");
+            Console.WriteLine("==========================");
+            Console.WriteLine();
+            Console.WriteLine("1. File - New File - Save As");
+            Console.WriteLine("0. Exit");
+            Console.WriteLine();
 
-        // Look at every button FlaUI can see
-        var buttons = window.FindAllDescendants(
-            cf => cf.ByControlType(ControlType.Button));
+            Console.Write("Select test: ");
+            string? selection = Console.ReadLine();
 
-        var newButton = window.FindFirstDescendant(
-        cf => cf.ByAutomationId("New"));
+            Console.WriteLine();
 
-        Console.WriteLine($"Found 'New' button. Invoking button.");
-
-        //Use INVOKE, not click. Invocation always more robust than click
-        newButton.AsButton().Invoke();
-
-        //Sleep arbitrary amount to make sure action is completed
-        //TODO: Wait for UI element rather than arbitrary time
-        Thread.Sleep(500);
-
-        var tabs = window.FindAllDescendants(cf => cf.ByControlType(ControlType.TabItem));
-
-        AutomationElement? untitledTab = null;
-
-        foreach (var tab in tabs)
-        {
-            var title = tab.FindFirstDescendant(
-                cf => cf.ByName("Untitled.txt")
-                        .And(cf.ByControlType(ControlType.Text)));
-
-            if (title != null)
+            switch (selection)
             {
-                untitledTab = tab;
-                break;
+                case "1":
+                    FileNewFileSaveAs.Run();
+                    break;
+
+                case "0":
+                    running = false;
+                    break;
+
+                default:
+                    Console.WriteLine("Invalid selection.");
+                    break;
+            }
+
+            if (running)
+            {
+                Console.WriteLine();
+                Console.WriteLine("Press ENTER to return to test manager.");
+                Console.ReadLine();
             }
         }
-
-        if (untitledTab == null)
-        {
-            Console.WriteLine("FAIL: Untitled.txt tab was not found.");
-            return;
-        }
-
-        Console.WriteLine("Found the Untitled.txt document tab.");
-
-        //Use SELECT, not click. Select always more robust than a click.
-        untitledTab.AsTabItem().Select();
-
-        //PrintTree(window);
-
-        //Auto close the application after 3 seconds.
-        Console.WriteLine("Press ENTER to close Edi.");
-        Console.ReadLine();
-
-        application.Close();
     }
 }
