@@ -11,11 +11,11 @@ internal class FileNewFileSaveAs
 {
     public static void Run()
     {
-        string ediPath = @"D:\CPROJECT\Edi-1.2\Debug\Edi.exe";
-
-        string filePath = TestPaths.TestFile("Untitled.txt");
+        string ediPath = TestPaths.EdiPath;
 
         using var edi = new TestManager(ediPath);
+
+        string filePath = TestPaths.TestFile("Untitled.txt");
 
         const string cOverridePopUpYesButtonId = "6";
         const string cPopUpSaveButton = "1";

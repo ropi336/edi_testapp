@@ -10,7 +10,7 @@ internal class FileOpen
 {
     public static void Run()
     {
-        string ediPath = @"D:\CPROJECT\Edi-1.2\Debug\Edi.exe";
+        string ediPath = TestPaths.EdiPath;
 
         using var edi = new TestManager(ediPath);
 

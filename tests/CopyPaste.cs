@@ -13,7 +13,7 @@ internal class CopyPaste
 {
     public static void Run()
     {
-        string ediPath = @"D:\CPROJECT\Edi-1.2\Debug\Edi.exe";
+        string ediPath = TestPaths.EdiPath;
 
         string filePath = TestPaths.TestFile("CopyPaste.txt");
 

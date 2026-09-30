@@ -13,7 +13,7 @@ internal class AutoOpenRecents
 {
     public static void Run()
     {
-        string ediPath = @"D:\CPROJECT\Edi-1.2\Debug\Edi.exe";
+        string ediPath = TestPaths.EdiPath;
 
         string filePathCopyPaste = TestPaths.TestFile("CopyPaste.txt");
         string filePathCut = TestPaths.TestFile("Cut.txt");

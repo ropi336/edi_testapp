@@ -30,5 +30,11 @@ namespace TestApp
             Path.Combine(
                 CompFilesDirectory,
                 fileName);
+
+        public static string EdiPath =>
+            Path.GetFullPath(
+                Path.Combine(
+                    AppContext.BaseDirectory,
+                    @"..\..\..\..\..\Edi-1.2\Debug\Edi.exe"));
     }
 }
