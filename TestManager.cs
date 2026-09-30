@@ -63,6 +63,29 @@ internal class TestManager : IDisposable
         PrintElement(MainWindow, 0);
     }
 
+    public void PrintTree(AutomationElement element, int depth = 0)
+    {
+        PrintElement(element, 0);
+    }
+
+    public AutomationElement? FindAddressToolbar(AutomationElement saveAsWindow)
+    {
+        var toolbars = saveAsWindow.FindAllDescendants(
+            cf => cf.ByControlType(ControlType.ToolBar));
+
+        foreach (var toolbar in toolbars)
+        {
+            string name = SafeGet(() => toolbar.Name);
+
+            if (name.Contains("Address:", StringComparison.OrdinalIgnoreCase))
+            {
+                return toolbar;
+            }
+        }
+
+        return null;
+    }
+
     public bool Launch()
     {
         _app = Application.Launch(_ediPath);

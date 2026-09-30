@@ -52,7 +52,19 @@ internal class FileNewFileSaveAs
 
         Console.WriteLine("Printing all UI Elements");
 
-        //edi.PrintTree();
+        var saveAsWindow = edi.MainWindow.FindFirstDescendant(
+        cf => cf.ByControlType(ControlType.Window).And(cf.ByName("Save As")));
+
+        //edi.PrintTree(saveAsWindow);
+
+        AutomationElement addressToolbar = edi.FindAddressToolbar(saveAsWindow);
+
+        var patterns = addressToolbar.GetSupportedPatterns();
+
+        foreach (var pattern in patterns)
+        {
+            Console.WriteLine(pattern);
+        }
 
         Console.ReadLine();
 
