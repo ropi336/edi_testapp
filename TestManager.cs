@@ -99,6 +99,21 @@ internal class TestManager : IDisposable
             cf => cf.ByAutomationId(automationId));
     }
 
+    public void PrintEditableTextBoxContents(string automationId)
+    {
+        var editor = MainWindow.FindFirstDescendant(cf => cf.ByAutomationId(automationId));
+
+        if (editor == null)
+        {
+            return;
+        }
+
+        foreach (var pattern in editor.GetSupportedPatterns())
+        {
+            Console.WriteLine(pattern);
+        }
+    }
+
     public AutomationElement? FindByName(string name)
     {
         return MainWindow?.FindFirstDescendant(

@@ -18,6 +18,9 @@ internal class FileNewFileSaveAs
         int testPasses = 0;
 
         using var edi = new TestManager(ediPath);
+
+        const string cOverridePopUpYesButtonId = "6";
+        const string cSaveAsPopUpSaveButtonId = "1";
         
         if (!edi.Launch())
         {
@@ -73,32 +76,33 @@ internal class FileNewFileSaveAs
 
         Thread.Sleep(300);
 
-        edi.CompletePopUpProcedure("Save As", filePath);
+        if (!edi.CompletePopUpProcedure("Save As", filePath))
+        {
+            Console.WriteLine("[FAIL] Path could not be added to 'Save As' popup.");
+        }
+        Console.WriteLine("[PASS] Path was successfully added to 'Save As' popup.");
 
         AutomationElement saveAsWindow = edi.FindWindowByName("Save As");
 
         //Click Save
-        edi.InvokeButtonInWindow(saveAsWindow, "1");
+        edi.InvokeButtonInWindow(saveAsWindow, cSaveAsPopUpSaveButtonId);
 
         Thread.Sleep(300);
 
         //Check for overwrite prompt, then click yes if exists
         if (edi.CheckOverwritePrompt(saveAsWindow) == true)
         {
-            edi.InvokeButtonInWindow(saveAsWindow, "6");
+            edi.InvokeButtonInWindow(saveAsWindow, cOverridePopUpYesButtonId);
         }
-
-        Console.ReadLine();
 
         if (edi.FileExists(filePath))
         {
-            Console.WriteLine("[PASS] New file was successfully created.");
+            Console.WriteLine("[PASS] New file was successfully saved to storage.");
         }
         else
         {
-            Console.WriteLine("[FAIL] The file was not created.");
+            Console.WriteLine("[FAIL] The file could not be saved to storage.");
         }
-
 
         Thread.Sleep(1000);
 
