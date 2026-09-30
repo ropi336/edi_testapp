@@ -127,6 +127,60 @@ internal class TestManager : IDisposable
 
         return window;
     }
+    public bool ExpandMenuItemByName(string name)
+    {
+        var element = MainWindow?.FindFirstDescendant(cf => cf.ByName(name));
+
+        if (element == null)
+        {
+            return false;
+        }
+
+        element.Patterns.ExpandCollapse.Pattern.Expand();
+        return true;
+    }
+    public bool InvokeMenuItemByName(string name)
+    {
+        var element = MainWindow?.FindFirstDescendant(cf => cf.ByName(name));
+
+        if (element == null)
+        {
+            return false;
+        }
+
+        element.Patterns.Invoke.Pattern.Invoke();
+        return true;
+    }
+
+    public bool CompletePopUpProcedure(string window, string path)
+    {
+        var popUpWindow = FindWindowByName(window);
+
+        if (popUpWindow == null)
+        {
+            return false;
+        }
+
+        var fileNameBox = FindFileNameInput(popUpWindow);
+
+        if (fileNameBox == null)
+        {
+            return false;
+        }
+
+        var textBox = fileNameBox.AsTextBox();
+
+        if (textBox == null)
+        {
+            return false;
+        }
+
+        textBox.Text = path;
+
+        return true;
+    }
+
+
     public bool InvokeButtonInWindow(AutomationElement window, string automationId)
     {
         var element = window?.FindFirstDescendant(
@@ -140,6 +194,7 @@ internal class TestManager : IDisposable
         element.AsButton().Invoke();
         return true;
     }
+
     public bool CheckOverwritePrompt(AutomationElement window)
     {
         var overrideWindow = window.FindFirstDescendant(
@@ -166,6 +221,11 @@ internal class TestManager : IDisposable
             }
         }
         return false;
+    }
+
+    public bool FileExists(string filePath)
+    {
+        return File.Exists(filePath);
     }
 
     public void Close()

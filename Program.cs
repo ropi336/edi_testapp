@@ -21,6 +21,7 @@ internal class Program
             Console.WriteLine("==========================");
             Console.WriteLine();
             Console.WriteLine("1. File - New File - Save As");
+            Console.WriteLine("2. File - Open");
             Console.WriteLine("0. Exit");
             Console.WriteLine();
 
@@ -33,6 +34,10 @@ internal class Program
             {
                 case "1":
                     FileNewFileSaveAs.Run();
+                    break;
+
+                case "2":
+                    FileOpen.Run();
                     break;
 
                 case "0":
