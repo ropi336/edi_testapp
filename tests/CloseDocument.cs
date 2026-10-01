@@ -8,6 +8,12 @@ using FlaUI.UIA3;
 using Microsoft.VisualBasic;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
+//======================
+// Close a document
+//=======================
+// Purpose: Verify that documents can be closed
+//=======================
+
 namespace TestApp.Tests;
 internal class CloseDocument
 {

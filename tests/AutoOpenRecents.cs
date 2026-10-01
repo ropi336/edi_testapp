@@ -8,6 +8,12 @@ using FlaUI.UIA3;
 using Microsoft.VisualBasic;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
+//=======================
+// Auto Open Recents Test
+//=======================
+// Purpose: Verify that the application will restore the last user session automatically
+//=======================
+
 namespace TestApp.Tests;
 internal class AutoOpenRecents
 {
@@ -31,6 +37,7 @@ internal class AutoOpenRecents
         edi.OpenFile(filePathCopyPaste, cPopUpOpenButtonId);
         edi.OpenFile(filePathCut, cPopUpOpenButtonId);
         edi.OpenFile(filePathOpenRecent, cPopUpOpenButtonId);
+
         Thread.Sleep(1000);
         edi.Close();
         Thread.Sleep(1000);

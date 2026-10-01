@@ -8,6 +8,13 @@ using FlaUI.UIA3;
 using Microsoft.VisualBasic;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
+//======================
+// Cut from file and paste into new file
+//=======================
+// Purpose: Verify that clipboard data can be
+// preserved and transferred between files.
+//=======================
+
 namespace TestApp.Tests;
 internal class CutAndPaste
 {

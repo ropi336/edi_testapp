@@ -8,6 +8,13 @@ using FlaUI.UIA3;
 using Microsoft.VisualBasic;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
+//======================
+// Switch Tabs test
+//=======================
+// Purpose: Verify that switching tabs correctly functions
+// by, after switching, checking file contents against the data on record
+//=======================
+
 namespace TestApp.Tests;
 internal class SwitchTabs
 {
@@ -15,9 +22,13 @@ internal class SwitchTabs
     {
         string ediPath = TestPaths.EdiPath;
 
-        string filePathCopyPaste = TestPaths.TestFile("CopyPaste.txt");
-        string filePathCut = TestPaths.TestFile("Cut.txt");
-        string filePathOpenRecent = TestPaths.TestFile("OpenRecent.txt");
+        string filePathCopyPaste = TestPaths.BackupFile("CopyPaste.txt");
+        string filePathCut = TestPaths.BackupFile("Cut.txt");
+        string filePathOpenRecent = TestPaths.BackupFile("Modify.txt");
+
+        const string cExpectedDocContentsCopyPaste = "CopyThisString";
+        const string cExpectedDocContentsCut = "CutThisStringOfText";
+        const string cExpectedDocContentsModify = "ModifyLineTwoWithSevenSevens";
 
         const string cPopUpOpenButtonId = "1";
 
@@ -31,35 +42,33 @@ internal class SwitchTabs
 
         edi.CloseAllDocuments();
 
-        Console.WriteLine($"Opening files CopyPaste.txt, Cut.txt, and OpenRecent.txt.");
+        Console.WriteLine($"Opening files CopyPaste.txt, Cut.txt, and Modify.txt.");
 
         edi.OpenFile(filePathCopyPaste, cPopUpOpenButtonId);
         edi.OpenFile(filePathCut, cPopUpOpenButtonId);
         edi.OpenFile(filePathOpenRecent, cPopUpOpenButtonId);
 
-        Console.WriteLine($"Closing EDI.");
-
-        Thread.Sleep(1000);
-        edi.Close();
-        Thread.Sleep(1000);
-
         Console.WriteLine($"Commencing test.");
 
-        edi.LogResult("Launching EDI", true, edi.Launch());
+        Thread.Sleep(500);
 
-        Thread.Sleep(1000);
+        edi.LogResult("Select tab CopyPaste.txt", true, edi.SelectTabByName("CopyPaste.txt"));
 
-        edi.LogResult("Search for any tab named CopyPaste.txt", true, edi.SelectTabByName("CopyPaste.txt"));
+        Thread.Sleep(500);
 
-        Thread.Sleep(1000);
+        edi.LogResult("Verify document contents after Tab switching action.", cExpectedDocContentsCopyPaste, edi.GetDocumentContents());
 
-        edi.LogResult("Search for any tab named Cut.txt", true, edi.SelectTabByName("Cut.txt"));
+        edi.LogResult("Select tab Cut.txt", true, edi.SelectTabByName("Cut.txt"));
 
-        Thread.Sleep(1000);
+        Thread.Sleep(500);
 
-        edi.LogResult("Search for any tab named OpenRecent.txt", true, edi.SelectTabByName("OpenRecent.txt"));
+        edi.LogResult("Verify document contents after Tab switching action.", cExpectedDocContentsCut, edi.GetDocumentContents());
 
-        Thread.Sleep(1000);
+        edi.LogResult("Select tab Modify.txt", true, edi.SelectTabByName("Modify.txt"));
+
+        Thread.Sleep(500);
+
+        edi.LogResult("Verify document contents after Tab switching action.", cExpectedDocContentsModify, edi.GetDocumentContents());
 
         edi.CloseAllDocuments();
 

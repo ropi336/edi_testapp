@@ -14,7 +14,7 @@ namespace TestApp
                 "testapp_savedir");
         public static string BackupFilesDirectory =>
             Path.Combine(AppContext.BaseDirectory,
-                "testapp_testapp_backupfiles");
+                "testapp_backupfiles");
         public static string CompFilesDirectory =>
             Path.Combine(AppContext.BaseDirectory,
                 "testapp_compfiles");

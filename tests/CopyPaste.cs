@@ -8,6 +8,13 @@ using FlaUI.UIA3;
 using Microsoft.VisualBasic;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
+//======================
+// Copy & Paste
+//=======================
+// Purpose: Verify that data can be saved to the clipboard
+// and reused.
+//=======================
+
 namespace TestApp.Tests;
 internal class CopyPaste
 {

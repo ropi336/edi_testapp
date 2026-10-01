@@ -10,7 +10,12 @@ internal class TestManager : IDisposable
     private readonly string _ediPath;
 
     private Application? _app;
+
     private UIA3Automation? _automation;
+
+    private int _failureCount = 0;
+
+    public int FailureCount => _failureCount;
 
     public Window? MainWindow { get; private set; }
 
@@ -27,6 +32,8 @@ internal class TestManager : IDisposable
 
         if (!passed)
         {
+            _failureCount++;
+
             string expectedLine = $"       Expected: {expected}";
             string actualLine = $"       Actual:   {actual}";
 
@@ -42,6 +49,7 @@ internal class TestManager : IDisposable
     {
         _ediPath = ediPath;
     }
+
     public string SafeGet(Func<string> getter)
     {
         try
@@ -88,6 +96,7 @@ internal class TestManager : IDisposable
         PrintElement(MainWindow, 0);
     }
 
+    //Debug function to dump all available UI elements
     public void PrintTree(AutomationElement element, int depth = 0)
     {
         PrintElement(element, 0);
@@ -516,6 +525,9 @@ internal class TestManager : IDisposable
 
                 return true;
             }
+
+            Console.WriteLine("[COMP NOT CREATED]");
+            return false;
         }
 
         string[] expected = File.ReadAllLines(compPath);
@@ -531,6 +543,7 @@ internal class TestManager : IDisposable
         {
             Console.WriteLine("[COMP FAIL] Results differ from baseline.");
         }
+        Console.WriteLine($"Tasks Failed: {FailureCount}");
 
         return matches;
     }

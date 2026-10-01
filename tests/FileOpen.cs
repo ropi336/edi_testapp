@@ -5,6 +5,13 @@ using FlaUI.Core.Definitions;
 using FlaUI.UIA3;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
+//======================
+// Open a file
+//=======================
+// Purpose: Verify that it's possible to open files using EDI's
+// File -> Open menu items
+//=======================
+
 namespace TestApp.Tests;
 internal class FileOpen
 {

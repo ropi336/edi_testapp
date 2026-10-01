@@ -7,6 +7,12 @@ using FlaUI.UIA3;
 using Microsoft.VisualBasic;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
+//======================
+// Undo & Redo
+//=======================
+// Purpose: Verify that actions can be undone and redone
+//=======================
+
 namespace TestApp.Tests;
 internal class UndoRedo
 {

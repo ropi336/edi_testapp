@@ -5,6 +5,13 @@ using FlaUI.Core.Definitions;
 using FlaUI.UIA3;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
+//======================
+// Undo & Redo
+//=======================
+// Purpose: Verify that the most recently opened file
+// is bumped to the top in the list, and correctly opens the expected file
+//=======================
+
 namespace TestApp.Tests;
 internal class FileOpenRecent
 {

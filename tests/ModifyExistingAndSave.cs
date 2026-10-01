@@ -8,6 +8,12 @@ using FlaUI.UIA3;
 using Microsoft.VisualBasic;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
+//======================
+// Modify Existing File and Save it
+//=======================
+// Purpose: Verify that regular save functions
+//=======================
+
 namespace TestApp.Tests;
 internal class ModifyExistingAndSave
 {
