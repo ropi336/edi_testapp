@@ -537,11 +537,16 @@ internal class TestManager : IDisposable
 
         if (matches)
         {
+            Console.WriteLine("===================================");
             Console.WriteLine("[COMP PASS] Results match baseline.");
+            Console.WriteLine("===================================");
+
         }
         else
         {
+            Console.WriteLine("===================================");
             Console.WriteLine("[COMP FAIL] Results differ from baseline.");
+            Console.WriteLine("===================================");
         }
         Console.WriteLine($"Tasks Failed: {FailureCount}");
 
