@@ -210,7 +210,7 @@ internal class TestManager : IDisposable
             cf => cf.ByName(name));
     }
 
-    public AutomationElement FindTabByName(string name)
+    public AutomationElement? FindTabByName(string name)
     {
         if (MainWindow == null)
         {
