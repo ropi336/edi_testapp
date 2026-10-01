@@ -1,0 +1,6 @@
+[PASS] Launching EDI
+[PASS] Expanding 'File' menu item
+[PASS] Expanding 'Open' menu item
+[PASS] Invoke 'Text files' Menu item
+[PASS] Invoking 'Open' Button.
+[PASS] Compare document contents after opening document.

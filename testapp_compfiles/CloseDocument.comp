@@ -1,0 +1,5 @@
+[PASS] Launching EDI
+[PASS] Open file CopyPaste.txt
+[PASS] Search for any tab named CopyPaste.txt
+[PASS] Close any tabs named CopyPaste.txt
+[PASS] Verify tabs named CopyPaste.txt have been closed

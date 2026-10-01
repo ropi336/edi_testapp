@@ -1,0 +1,17 @@
+[PASS] Launching EDI
+[PASS] Expand 'Edit' Menu item
+[PASS] Invoke 'Select All' Menu item
+[PASS] Expand 'Edit' Menu item
+[PASS] Invoke 'Cut' Menu item
+[PASS] Compare document contents after Cut action.
+[PASS] Expand 'File' Menu item
+[PASS] Expand 'New' Menu item
+[PASS] Invoke 'Text Document' Menu item
+[PASS] Expand 'Edit' Menu item
+[PASS] Invoke 'Paste' Menu item
+[PASS] Compare document contents after Paste action.
+[PASS] Expand 'File' menu item
+[PASS] Invoke 'Save As' Menu item
+[PASS] Input file path to Save As popup
+[PASS] Invoke Save Button
+[PASS] Compare file contents after save

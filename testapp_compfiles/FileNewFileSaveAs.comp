@@ -1,0 +1,10 @@
+[PASS] Launching EDI
+[PASS] Expand 'File' menu item
+[PASS] Expand 'New' menu item
+[PASS] Invoke 'Text Document' Menu item
+[PASS] Search for any tab named Untitled.txt
+[PASS] Expand 'File' menu item
+[PASS] Invoke 'Save As' Menu item
+[PASS] Input file path to Save As popup
+[PASS] Invoke Save Button
+[PASS] Checking saved file status

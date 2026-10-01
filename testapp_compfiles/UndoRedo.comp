@@ -1,0 +1,15 @@
+[PASS] Launching EDI
+[PASS] Expand 'Edit' Menu item
+[PASS] Invoke 'Select All' Menu item
+[PASS] Expand 'Edit' Menu item
+[PASS] Invoke 'Delete' Menu item
+[PASS] Compare document contents after delete action.
+[PASS] Expand 'Edit' Menu item
+[PASS] Invoke 'Undo' Menu item
+[PASS] Compare document contents after Undo action.
+[PASS] Expand 'Edit' Menu item
+[PASS] Invoke 'Undo' Menu item
+[PASS] Compare document contents after Redo action.
+[PASS] Expand 'File' Menu item
+[PASS] Invoke 'Save' Menu item
+[PASS] Compare file contents after save

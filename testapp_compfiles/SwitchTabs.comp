@@ -1,0 +1,6 @@
+[PASS] Select tab CopyPaste.txt
+[PASS] Verify document contents after Tab switching action.
+[PASS] Select tab Cut.txt
+[PASS] Verify document contents after Tab switching action.
+[PASS] Select tab Modify.txt
+[PASS] Verify document contents after Tab switching action.
