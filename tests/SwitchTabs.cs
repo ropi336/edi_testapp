@@ -20,7 +20,7 @@ internal class SwitchTabs
 {
     public static void Run()
     {
-        string ediPath = TestPaths.EdiPath;
+        using var edi = new TestManager(TestPaths.EdiPath);
 
         string filePathCopyPaste = TestPaths.BackupFile("CopyPaste.txt");
         string filePathCut = TestPaths.BackupFile("Cut.txt");
@@ -31,8 +31,6 @@ internal class SwitchTabs
         const string cExpectedDocContentsModify = "ModifyLineTwoWithSevenSevens";
 
         const string cPopUpOpenButtonId = "1";
-
-        using var edi = new TestManager(ediPath);
 
         edi.Launch();
 

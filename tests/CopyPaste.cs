@@ -20,15 +20,13 @@ internal class CopyPaste
 {
     public static void Run()
     {
-        string ediPath = TestPaths.EdiPath;
+        using var edi = new TestManager(TestPaths.EdiPath);
 
         string filePath = TestPaths.TestFile("CopyPaste.txt");
 
         string filePathBackup = TestPaths.BackupFile("CopyPaste.txt");
 
         File.Copy(filePathBackup, filePath, true);
-
-        using var edi = new TestManager(ediPath);
 
         string cExpectedFileContents = "CopyThisString\r\nCopyThisString";
 

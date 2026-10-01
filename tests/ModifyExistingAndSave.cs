@@ -19,12 +19,10 @@ internal class ModifyExistingAndSave
 {
     public static void Run()
     {
-        string ediPath = TestPaths.EdiPath;
+        using var edi = new TestManager(TestPaths.EdiPath);
 
         string filePath = TestPaths.TestFile("Modify.txt");
         string filePathBackup = TestPaths.BackupFile("Modify.txt");
-
-        using var edi = new TestManager(ediPath);
 
         string cExpectedFileContents = "ModifyLineTwoWithSevenSevens\r\n7777777";
         string cExpectedUnmodifiedContents = "ModifyLineTwoWithSevenSevens";

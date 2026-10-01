@@ -19,15 +19,13 @@ internal class AutoOpenRecents
 {
     public static void Run()
     {
-        string ediPath = TestPaths.EdiPath;
+        using var edi = new TestManager(TestPaths.EdiPath);
 
         string filePathCopyPaste = TestPaths.TestFile("CopyPaste.txt");
         string filePathCut = TestPaths.TestFile("Cut.txt");
         string filePathOpenRecent = TestPaths.TestFile("OpenRecent.txt");
 
         const string cPopUpOpenButtonId = "1";
-
-        using var edi = new TestManager(ediPath);
 
         edi.LogResult("Launching EDI", true, edi.Launch());
 

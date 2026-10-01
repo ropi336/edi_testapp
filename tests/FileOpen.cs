@@ -17,9 +17,7 @@ internal class FileOpen
 {
     public static void Run()
     {
-        string ediPath = TestPaths.EdiPath;
-
-        using var edi = new TestManager(ediPath);
+        using var edi = new TestManager(TestPaths.EdiPath);
 
         string filePath = TestPaths.TestFile("TextContent.txt");
 

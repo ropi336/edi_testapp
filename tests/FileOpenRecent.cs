@@ -17,11 +17,9 @@ internal class FileOpenRecent
 {
     public static void Run()
     {
-        string ediPath = TestPaths.EdiPath;
+        using var edi = new TestManager(TestPaths.EdiPath);
 
         string filePath = TestPaths.TestFile("OpenRecent.txt");
-
-        using var edi = new TestManager(ediPath);
 
         const string cExpectedFileContents = "OpenRecent";
 

@@ -20,14 +20,12 @@ internal class CutAndPaste
 {
     public static void Run()
     {
-        string ediPath = TestPaths.EdiPath;
+        using var edi = new TestManager(TestPaths.EdiPath);
 
         string filePath = TestPaths.TestFile("Cut.txt");
         string filePathBackup = TestPaths.BackupFile("Cut.txt");
         
         string newFilePath = "D:\\CPROJECT\\edi_testapp\\edi_testapp\\testapp_savedir\\NewFilePaste.txt";
-
-        using var edi = new TestManager(ediPath);
 
         string cExpectedFileContents = "CutThisStringOfText";
         string cExpectedEmptyContents = "";

@@ -31,10 +31,45 @@ namespace TestApp
                 CompFilesDirectory,
                 fileName);
 
-        public static string EdiPath =>
-            Path.GetFullPath(
-                Path.Combine(
-                    AppContext.BaseDirectory,
-                    @"..\..\..\..\..\Edi-1.2\Debug\Edi.exe"));
+        public static string EdiPath
+        {
+            get
+            {
+                DirectoryInfo? directory =
+                    new DirectoryInfo(AppContext.BaseDirectory);
+
+                while (directory != null)
+                {
+                    string[] candidates =
+                    {
+                    // Distribution layout
+                    Path.Combine(
+                        directory.FullName,
+                        "Edi-1.2",
+                        "Edi.exe"),
+
+                    // Development layout
+                    Path.Combine(
+                        directory.FullName,
+                        "Edi-1.2",
+                        "Debug",
+                        "Edi.exe")
+                };
+
+                    foreach (string candidate in candidates)
+                    {
+                        if (File.Exists(candidate))
+                        {
+                            return candidate;
+                        }
+                    }
+
+                    directory = directory.Parent;
+                }
+
+                throw new FileNotFoundException(
+                    "Could not locate Edi.exe.");
+            }
+        }
     }
 }

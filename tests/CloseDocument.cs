@@ -19,13 +19,11 @@ internal class CloseDocument
 {
     public static void Run()
     {
-        string ediPath = TestPaths.EdiPath;
+        using var edi = new TestManager(TestPaths.EdiPath);
 
         string filePath = TestPaths.TestFile("CopyPaste.txt");
 
         const string cPopUpOpenButtonId = "1";
-
-        using var edi = new TestManager(ediPath);
 
         edi.LogResult("Launching EDI", true, edi.Launch());
 
