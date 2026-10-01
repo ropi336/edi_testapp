@@ -9,7 +9,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 // Open a file
 //=======================
 // Purpose: Verify that it's possible to open files using EDI's
-// File -> Open menu items
+// File -> Open menu items. Compares document contents to data on record
 //=======================
 
 namespace TestApp.Tests;

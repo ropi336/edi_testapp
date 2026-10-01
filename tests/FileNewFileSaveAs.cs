@@ -10,7 +10,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 // File New, File Save as
 //=======================
 // Purpose: Verify that it's possible to create new files using EDI's
-// File -> New -> Save As items. Also verifies save as function works
+// File -> New -> Save As items. Also verifies "save as" function works
 //=======================
 
 namespace TestApp.Tests;
