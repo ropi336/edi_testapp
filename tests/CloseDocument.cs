@@ -47,6 +47,8 @@ internal class CloseDocument
 
         edi.Close();
 
+        edi.CompareWithComp("CloseDocument.comp");
+
         Console.WriteLine("App successfully shut down.");
     }
 }

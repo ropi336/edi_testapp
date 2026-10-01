@@ -48,6 +48,8 @@ internal class AutoOpenRecents
 
         edi.Close();
 
+        edi.CompareWithComp("AutoOpenRecents.comp");
+
         Console.WriteLine("App successfully shut down.");
     }
 }

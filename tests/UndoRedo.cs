@@ -82,6 +82,8 @@ internal class UndoRedo
 
         edi.Close();
 
+        edi.CompareWithComp("UndoRedo.comp");
+
         Console.WriteLine("App successfully shut down.");
     }
 }

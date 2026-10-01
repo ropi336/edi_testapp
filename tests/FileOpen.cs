@@ -46,6 +46,8 @@ internal class FileOpen
 
         edi.Close();
 
+        edi.CompareWithComp("FileOpen.comp");
+
         Console.WriteLine("App successfully shut down.");
     }
 }

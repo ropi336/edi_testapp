@@ -493,6 +493,48 @@ internal class TestManager : IDisposable
         return true;
     }
 
+    public bool CompareWithComp(string compFileName)
+    {
+        string compPath = TestPaths.CompFile(compFileName);
+
+        if (!File.Exists(compPath))
+        {
+            Console.WriteLine();
+            Console.WriteLine($"COMP file does not exist: {compFileName}");
+            Console.Write("Create COMP file from current test results? (Y/N): ");
+
+            string? input = Console.ReadLine();
+
+            if (input?.Trim().Equals("Y", StringComparison.OrdinalIgnoreCase) == true)
+            {
+                Directory.CreateDirectory(
+                    Path.GetDirectoryName(compPath)!);
+
+                File.WriteAllLines(compPath, _testResults);
+
+                Console.WriteLine($"[COMP CREATED] {compFileName}");
+
+                return true;
+            }
+        }
+
+        string[] expected = File.ReadAllLines(compPath);
+        string[] actual = _testResults.ToArray();
+
+        bool matches = expected.SequenceEqual(actual);
+
+        if (matches)
+        {
+            Console.WriteLine("[COMP PASS] Results match baseline.");
+        }
+        else
+        {
+            Console.WriteLine("[COMP FAIL] Results differ from baseline.");
+        }
+
+        return matches;
+    }
+
     public bool FileExists(string filePath)
     {
         return File.Exists(filePath);

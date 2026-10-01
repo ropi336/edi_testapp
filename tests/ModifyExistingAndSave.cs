@@ -72,6 +72,8 @@ internal class ModifyExistingAndSave
 
         edi.Close();
 
+        edi.CompareWithComp("ModifyExistingAndSave.comp");
+
         Console.WriteLine("App successfully shut down.");
     }
 }

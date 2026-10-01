@@ -71,8 +71,9 @@ internal class FileNewFileSaveAs
 
         edi.CloseAllDocuments();
 
-
         edi.Close();
+
+        edi.CompareWithComp("FileNewFileSaveAs.comp");
 
         Console.WriteLine("App successfully shut down.");
     }

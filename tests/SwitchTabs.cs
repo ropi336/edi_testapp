@@ -65,6 +65,8 @@ internal class SwitchTabs
 
         edi.Close();
 
+        edi.CompareWithComp("SwitchTabs.comp");
+
         Console.WriteLine("App successfully shut down.");
     }
 }

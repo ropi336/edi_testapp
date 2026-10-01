@@ -98,6 +98,8 @@ internal class CutAndPaste
 
         edi.Close();
 
+        edi.CompareWithComp("CutAndPasteIntoNewFile.comp");
+
         Console.WriteLine("App successfully shut down.");
 
         //After test cleanup

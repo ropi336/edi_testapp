@@ -75,6 +75,8 @@ internal class CopyPaste
 
         edi.Close();
 
+        edi.CompareWithComp("CopyPaste.comp");
+
         Console.WriteLine("App successfully shut down.");
     }
 }
